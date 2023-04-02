@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:login_with_signup/Screens/CategoriePage.dart';
 import 'package:login_with_signup/Screens/HomeForm.dart';
 import 'package:login_with_signup/Screens/LoginForm.dart';
+import 'package:login_with_signup/Screens/Objectif.dart';
 import 'package:login_with_signup/Screens/homePage.dart';
 
 
@@ -107,8 +108,11 @@ class _pageState extends State<page> {
             ListTile(
               leading: Icon(Icons.video_label),
               title: const Text(' objectif '),
-              onTap: () {
-                Navigator.pop(context);
+               onTap: () {
+                 Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (_) => ObjectifPage()),
+                                (Route<dynamic> route) => false);
               },
             ),
           

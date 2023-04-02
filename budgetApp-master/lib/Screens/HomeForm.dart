@@ -4,6 +4,7 @@ import 'package:login_with_signup/Comm/genTextFormField.dart';
 import 'package:login_with_signup/DatabaseHandler/DbHelper.dart';
 import 'package:login_with_signup/Model/UserModel.dart';
 import 'package:login_with_signup/Screens/LoginForm.dart';
+import 'package:login_with_signup/Screens/Objectif.dart';
 import 'package:login_with_signup/Screens/homePage.dart';
 import 'package:login_with_signup/Screens/page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -247,8 +248,11 @@ class _HomeFormState extends State<HomeForm> {
             ListTile(
               leading: Icon(Icons.video_label),
               title: const Text(' objectif '),
-              onTap: () {
-                Navigator.pop(context);
+               onTap: () {
+                 Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (_) => ObjectifPage()),
+                                (Route<dynamic> route) => false);
               },
             ),
           

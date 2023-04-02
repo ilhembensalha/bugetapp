@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:login_with_signup/DatabaseHandler/DbHelper.dart';
+import 'package:login_with_signup/Screens/Objectif.dart';
 import 'package:login_with_signup/Screens/page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,18 +27,38 @@ class  _HomePageState extends State<HomePage>{
   
 
   bool _isLoading = true;
+  int _total= 200 ;
   // This function is used to fetch all data from the database
   void _refreshJournals() async {
     final data = await dbHelper.getTran();
+    final sum = await dbHelper.sumField();
     setState(() {
       _journals = data;
       _isLoading = false;
+      _total= sum ;
+
     });
   }
-    Future<double> total() async {
-    final data = await dbHelper.getTotalMontant();
-   return data ;
-  }
+   /*Future total() async {
+      var total = (await dbHelper.getTotal())[0]["sum(prix)"];
+      return total.toString();
+    
+  }*/
+
+ /*double _total ;
+  void _calcTotal() async {
+    var total =
+        (await dbHelper.getTotal())[0]["sum(prix)"];
+    print(total);
+    setState(() {
+      _total = total;
+    });
+  }*/
+/*void printMyFutureString() async {
+  String data = await dbHelper.getTotalMontant();
+  print(data);
+}*/
+
 
   @override
   void initState() {
@@ -58,7 +79,7 @@ class  _HomePageState extends State<HomePage>{
       final existingJournal =
       _journals.firstWhere((element) => element['id'] == id);
       _nameController.text = existingJournal['name'];
-      _prixController.text = existingJournal['prix'];
+      _prixController.text = existingJournal['prix'].toString();
       _descriptionController.text = existingJournal['description'];
     }
 
@@ -159,7 +180,7 @@ class  _HomePageState extends State<HomePage>{
      Future<SharedPreferences> _pref = SharedPreferences.getInstance();
     return Scaffold(
       appBar: AppBar(
-        title: Text(' Home '),
+        title: Text(_total.toString() != null ? _total.toString() : 'OO ...'),
       ),
      /* body: SafeArea(
           child:CustomScrollView(
@@ -207,7 +228,8 @@ class  _HomePageState extends State<HomePage>{
                margin: const EdgeInsets.all(15),
                child: ListTile(
                    title: Text(_journals[index]['name']),
-                    subtitle: Text(_journals[index]['description']),
+                    subtitle:Text(_total.toString() != null ? _total.toString() : 'waiting ...'),
+                    leading: Text(_journals[index]['description']),
                    trailing: SizedBox(
                      width: 100,
                      child: Row(
@@ -291,8 +313,11 @@ class  _HomePageState extends State<HomePage>{
             ListTile(
               leading: Icon(Icons.video_label),
               title: const Text(' objectif '),
-              onTap: () {
-                Navigator.pop(context);
+               onTap: () {
+                 Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (_) => ObjectifPage()),
+                                (Route<dynamic> route) => false);
               },
             ),
           
